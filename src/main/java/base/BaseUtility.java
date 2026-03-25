@@ -60,7 +60,19 @@ public class BaseUtility {
 
         driver.manage().window().maximize();
 
-        driver.get(prop.getProperty("baseUrl"));
+        String env = prop.getProperty("env");
+
+        if(env.equalsIgnoreCase("testing")) {
+
+            driver.get(prop.getProperty("testingUrl"));
+
+        }
+
+        else if(env.equalsIgnoreCase("production")) {
+
+            driver.get(prop.getProperty("productionUrl"));
+
+        }
 
     }
 

@@ -3,32 +3,68 @@ package tests;
 import org.testng.annotations.Test;
 
 import base.BaseUtility;
+import components.HomeTractorSectionComponent;
 import components.LeadFormComponent;
-import pages.HomePage;
+import constants.HomeTabType;
+import constants.PopupStrategy;
 import utils.TestDataGenerator;
+import constants.PopupStrategy;
 
 public class CheckTractorPriceLeadTest extends BaseUtility {
 
     @Test
-    public void verifyCheckTractorPriceLead() {
+    public void verifyHomeSectionTabsLead() throws InterruptedException {
 
-        // Page object
-        HomePage homePage = new HomePage(driver);
+        HomeTractorSectionComponent section =
+                new HomeTractorSectionComponent(driver);
 
-        // Component object
         LeadFormComponent leadForm =
                 new LeadFormComponent(driver);
 
-        // Step 1: Click CTA
-        homePage.clickCheckTractorPriceCTA();
-        try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
-        // Step 2: Fill Lead Form
+        // Popular tab
+
+        section.selectTab(HomeTabType.POPULAR);
+
+        section.clickFirstCardCTP(HomeTabType.POPULAR);
+
+        Thread.sleep(2000);
+
+        fillLeadForm(leadForm);
+
+
+        driver.navigate().refresh();
+
+
+        // Latest tab
+
+        section.selectTab(HomeTabType.LATEST);
+
+        section.clickFirstCardCTP(HomeTabType.LATEST);
+
+        Thread.sleep(2000);
+
+        fillLeadForm(leadForm);
+
+
+        driver.navigate().refresh();
+
+
+        // Upcoming tab
+
+        section.selectTab(HomeTabType.UPCOMING);
+
+        section.clickFirstCardCTP(HomeTabType.UPCOMING);
+
+        Thread.sleep(2000);
+
+        fillLeadForm(leadForm);
+
+    }
+
+
+    private void fillLeadForm(LeadFormComponent leadForm) {
+
         leadForm.enterName("Test QA");
 
         leadForm.enterMobile(
@@ -41,8 +77,15 @@ public class CheckTractorPriceLeadTest extends BaseUtility {
 
         leadForm.selectTehsil("Dudu");
 
-        // Step 3: Submit Lead
         leadForm.submitLead();
+        
+        leadForm.handleThankYouPopup(
+                PopupStrategy.CLOSE_POPUP);
+//              OR
+//              PopupStrategy.SUBMIT_RECOMMENDED_LEAD
+//              OR
+//              PopupStrategy.IGNORE_POPUP
+        
 
     }
 
