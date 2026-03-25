@@ -8,8 +8,8 @@ import org.openqa.selenium.support.PageFactory;
 
 import base.BaseUtility;
 
-public class CTP extends BaseUtility{
-	public CTP() {
+public class CheckTractorPricePage extends BaseUtility{
+	public CheckTractorPricePage() {
 		PageFactory.initElements(driver, this);
 	}
 	

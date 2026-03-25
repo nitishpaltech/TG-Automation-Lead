@@ -1,25 +1,75 @@
 package base;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.time.Duration;
+import java.util.Properties;
 
-import org.openqa.selenium.*;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-
+import org.openqa.selenium.edge.EdgeDriver;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 
 public class BaseUtility {
-	public static WebDriver driver = null;;
 
-	public void getURL(String Url) {
-		driver = new ChromeDriver();
-		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-		driver.get(Url);
-		driver.manage().window().maximize();
+    public static WebDriver driver;
+    public static Properties prop;
 
-	}
-	
-	public static void main(String[] args) {
-		BaseUtility ut = new BaseUtility();
-		ut.getURL("https://t1tg.tractorfirst.com/");
-	}
+    // Load config.properties
+    public void loadConfig() {
+
+        prop = new Properties();
+
+        try {
+
+            FileInputStream fis = new FileInputStream(
+                    System.getProperty("user.dir")
+                            + "/src/test/resources/config.properties");
+
+            prop.load(fis);
+
+        } catch (IOException e) {
+
+            e.printStackTrace();
+
+        }
+
+    }
+
+    // Browser setup
+    @BeforeMethod
+    public void setup() {
+
+        loadConfig();
+
+        String browser = prop.getProperty("browser");
+
+        if (browser.equalsIgnoreCase("chrome")) {
+
+            driver = new ChromeDriver();
+
+        } else if (browser.equalsIgnoreCase("edge")) {
+
+            driver = new EdgeDriver();
+
+        }
+
+        driver.manage().timeouts()
+                .implicitlyWait(Duration.ofSeconds(10));
+
+        driver.manage().window().maximize();
+
+        driver.get(prop.getProperty("baseUrl"));
+
+    }
+
+    // Browser close
+    @AfterMethod
+    public void tearDown() {
+
+        driver.quit();
+
+    }
 
 }
