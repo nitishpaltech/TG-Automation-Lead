@@ -1,7 +1,9 @@
 package components;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -46,13 +48,37 @@ public class LeadFormComponent {
             By.id("submitRecommendedProductsLead");
     public void enterName(String name) {
 
-        driver.findElement(nameField).sendKeys(name);
+        WebDriverWait wait =
+            new WebDriverWait(driver, Duration.ofSeconds(10));
+
+        By nameLocator =
+            By.name("userName");
+
+        WebElement nameInput =
+            wait.until(ExpectedConditions
+            .visibilityOfElementLocated(nameLocator));
+
+        nameInput.clear();
+
+        nameInput.sendKeys(name);
 
     }
 
     public void enterMobile(String mobile) {
 
-        driver.findElement(mobileField).sendKeys(mobile);
+        WebDriverWait wait =
+            new WebDriverWait(driver, Duration.ofSeconds(10));
+
+        By mobileLocator =
+            By.id("userMobileNumber");
+
+        WebElement mobileInput =
+            wait.until(ExpectedConditions
+            .visibilityOfElementLocated(mobileLocator));
+
+        mobileInput.clear();
+
+        mobileInput.sendKeys(mobile);
 
     }
 
@@ -107,54 +133,134 @@ public class LeadFormComponent {
         driver.findElement(submitBtn).click();
 
     }
+    public void waitForModalBackdropToDisappear() {
+
+        WebDriverWait wait =
+            new WebDriverWait(driver, Duration.ofSeconds(5));
+
+        try {
+
+            wait.until(ExpectedConditions
+            .invisibilityOfElementLocated(
+                By.className("modal-backdrop")
+            ));
+
+        }
+
+        catch(Exception e) {
+
+            System.out.println(
+            "Backdrop already removed"
+            );
+
+        }
+
+    }
     
-    public void handleThankYouPopup(PopupStrategy strategy) {
+   public void handleThankYouPopup(PopupStrategy strategy) {
 
     WebDriverWait wait =
-            new WebDriverWait(driver, Duration.ofSeconds(6));
+        new WebDriverWait(driver, Duration.ofSeconds(5));
 
     try {
 
+        By popupOverlay =
+            By.id("enquiryIdThanks");
+
+        By popupCloseBtn =
+            By.className("enquiryThanks-close");
+
+
         wait.until(ExpectedConditions
-                .visibilityOfElementLocated(thankYouPopup));
-
-        switch(strategy) {
-
-            case CLOSE_POPUP:
-
-                driver.findElement(popupCloseBtn).click();
-                break;
+        .presenceOfElementLocated(popupOverlay));
 
 
-            case SUBMIT_RECOMMENDED_LEAD:
+        WebElement overlay =
+            driver.findElement(popupOverlay);
+
+
+        if(overlay.isDisplayed()) {
+
+            if(strategy ==
+                PopupStrategy.CLOSE_POPUP) {
 
                 wait.until(ExpectedConditions
-                        .elementToBeClickable(recommendedLeadBtn));
+                .elementToBeClickable(popupCloseBtn));
 
-                driver.findElement(recommendedLeadBtn).click();
-                break;
+                driver.findElement(popupCloseBtn)
+                .click();
 
-
-            case IGNORE_POPUP:
-
-                System.out.println(
-                        "Popup ignored as per strategy"
-                );
-
-                break;
+            }
 
         }
+
+
+        // wait for modal backdrop removal
+
+        waitForModalBackdropToDisappear();
+        removeRecommendedOverlay();
+        removeThankYouOverlay();
 
     }
 
     catch(Exception e) {
 
         System.out.println(
-                "No Thank You popup appeared"
+        "No Thank You popup appeared"
         );
 
     }
 
 }
+
+   public void removeThankYouOverlay() {
+
+	    try {
+
+	        ((JavascriptExecutor) driver)
+	        .executeScript(
+	        "document.getElementById('enquiryIdThanks')?.remove();"
+	        );
+
+	        System.out.println(
+	        "ThankYou overlay removed"
+	        );
+
+	    }
+
+	    catch(Exception e) {
+
+	        System.out.println(
+	        "No ThankYou overlay present"
+	        );
+
+	    }
+
+	}
+
+   public void removeRecommendedOverlay() {
+
+	    try {
+
+	        ((JavascriptExecutor) driver)
+	        .executeScript(
+	        "document.querySelectorAll('.checkbox-tile').forEach(e=>e.remove());"
+	        );
+
+	        System.out.println(
+	        "Recommended overlay removed"
+	        );
+
+	    }
+
+	    catch(Exception e) {
+
+	        System.out.println(
+	        "No recommended overlay present"
+	        );
+
+	    }
+
+	}
 
 }
