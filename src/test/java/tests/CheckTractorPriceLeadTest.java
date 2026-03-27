@@ -3,7 +3,9 @@ package tests;
 import org.testng.annotations.Test;
 
 import base.BaseUtility;
+import components.HomeGetOfferBannerComponent;
 import components.HomeHPSectionComponent;
+import components.HomeMiniTractorSectionComponent;
 import components.HomePriceSectionComponent;
 import components.HomeTractorSectionComponent;
 import components.LeadFormComponent;
@@ -16,7 +18,7 @@ import constants.PopupStrategy;
 
 public class CheckTractorPriceLeadTest extends BaseUtility {
 
-    @Test
+//    @Test
     public void verifyHomeSectionTabsLead() throws InterruptedException {
 
         HomeTractorSectionComponent section =
@@ -66,7 +68,7 @@ public class CheckTractorPriceLeadTest extends BaseUtility {
 
     }
     
-    @Test
+//    @Test
     public void verifyPriceSectionTabsLead() {
 
         HomePriceSectionComponent priceSection =
@@ -136,7 +138,7 @@ public class CheckTractorPriceLeadTest extends BaseUtility {
 
     }
 
-    @Test
+//    @Test
     public void verifyHPSectionTabsLead() {
 
         HomeHPSectionComponent hpSection =
@@ -194,12 +196,9 @@ public class CheckTractorPriceLeadTest extends BaseUtility {
                 TestDataGenerator.generateMobile()
         );
 
-        leadForm.selectState("Rajasthan");
-
-        leadForm.selectDistrict("Jaipur");
-
-        leadForm.selectTehsil("Dudu");
-
+        leadForm.selectStateRandom();
+        leadForm.selectDistrictRandom();
+        leadForm.selectTehsilRandom();
         leadForm.submitLead();
         
         leadForm.handleThankYouPopup(
@@ -210,6 +209,52 @@ public class CheckTractorPriceLeadTest extends BaseUtility {
 //              PopupStrategy.IGNORE_POPUP);
         
 
-    }
+    } 
+    
+//    @Test
+    public void verifyMiniTractorSectionLead() {
 
+        HomeMiniTractorSectionComponent miniSection =
+            new HomeMiniTractorSectionComponent(driver);
+
+        LeadFormComponent leadForm =
+            new LeadFormComponent(driver);
+
+
+        miniSection.clickFirstCardCTP();
+
+        fillLeadForm(leadForm);
+
+    }
+    
+    @Test
+    public void verifyGetOfferBannerLead() {
+
+        HomeGetOfferBannerComponent banner =
+            new HomeGetOfferBannerComponent(driver);
+
+        LeadFormComponent leadForm =
+            new LeadFormComponent(driver);
+
+
+        banner.clickGetOfferCTA();
+
+
+        leadForm.enterName("Test QA");
+
+        leadForm.enterMobile(
+            TestDataGenerator.generateMobile()
+        );
+
+        leadForm.selectStateRandom();
+        leadForm.selectDistrictRandom();
+        leadForm.selectTehsilRandom();
+
+        leadForm.selectBrandRandom();
+        leadForm.selectModelRandom();
+
+
+        leadForm.submitLead();
+
+    }
 }

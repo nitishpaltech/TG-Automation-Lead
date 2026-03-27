@@ -13,6 +13,7 @@ import constants.PopupStrategy;
 
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.time.Duration;
+import java.util.concurrent.TimeoutException;
 
 
 public class LeadFormComponent {
@@ -46,6 +47,57 @@ public class LeadFormComponent {
 
     By recommendedLeadBtn =
             By.id("submitRecommendedProductsLead");
+    
+    By brandDropdown =
+    	    By.id("userBrand");
+
+    	By modelDropdown =
+    	    By.id("userModel");
+    	
+    	private void selectRandomOption(By locator) {
+
+    	    try {
+
+    	        WebElement dropdown =
+    	            driver.findElement(locator);
+
+    	        if (!dropdown.isDisplayed()) {
+
+    	            return;
+
+    	        }
+
+    	        Select select =
+    	            new Select(dropdown);
+
+    	        int optionCount =
+    	            select.getOptions().size();
+
+    	        if (optionCount <= 1) {
+
+    	            return;
+
+    	        }
+
+    	        int randomIndex =
+    	            1 + (int)(Math.random() *
+    	            (optionCount - 1));
+
+    	        select.selectByIndex(randomIndex);
+
+    	    }
+
+    	    catch (Exception e) {
+
+    	        System.out.println(
+    	        "Dropdown not available: " + locator
+    	        );
+
+    	    }
+
+    	}
+    	
+    
     public void enterName(String name) {
 
         WebDriverWait wait =
@@ -82,55 +134,96 @@ public class LeadFormComponent {
 
     }
 
-    public void selectState(String state) {
+    public void selectStateRandom() {
 
-        new Select(driver.findElement(stateDropdown))
-                .selectByVisibleText(state);
+        selectRandomOption(stateDropdown);
+
+        waitForDropdownLoad(districtDropdown);
+
+    }
+
+
+    public void selectDistrictRandom() {
+
+        selectRandomOption(districtDropdown);
+
+        waitForDropdownLoad(tehsilDropdown);
 
     }
 
-    public void selectDistrict(String district) {
 
-        try {
+public void selectTehsilRandom() {
 
-            Thread.sleep(1500);
+    selectRandomOption(tehsilDropdown);
 
-        } catch (InterruptedException e) {
+}
 
-            e.printStackTrace();
+public void selectBrandRandom() {
 
-        }
+    selectRandomOption(brandDropdown);
 
-        driver.findElement(districtDropdown).click();
+    waitForDropdownLoad(modelDropdown);
 
-        new Select(driver.findElement(districtDropdown))
-                .selectByVisibleText(district);
+}
 
-    }
-    
 
-    public void selectTehsil(String tehsil) {
+private void waitForDropdownLoad(By locator) {
 
-        try {
+    try {
 
-            Thread.sleep(1500);
+        new WebDriverWait(driver,
+        Duration.ofSeconds(5))
+        .until(driver -> {
 
-        } catch (InterruptedException e) {
+            Select select =
+            new Select(
+            driver.findElement(locator));
 
-            e.printStackTrace();
+            return select.getOptions().size() > 1;
 
-        }
-
-        driver.findElement(tehsilDropdown).click();
-
-        new Select(driver.findElement(tehsilDropdown))
-                .selectByVisibleText(tehsil);
+        });
 
     }
+
+    catch (Exception ignored) {}
+
+}
+
+
+public void selectModelRandom() {
+
+    selectRandomOption(modelDropdown);
+
+}
 
     public void submitLead() {
 
+        WebDriverWait wait =
+            new WebDriverWait(driver, Duration.ofSeconds(15));
+
         driver.findElement(submitBtn).click();
+
+
+        // wait for thank you popup
+
+        try {
+
+            wait.until(ExpectedConditions
+                .visibilityOfElementLocated(
+                    By.id("enquiryIdThanks")
+                ));
+
+            System.out.println("Lead submitted successfully");
+
+        }
+
+        catch (Exception e) {
+
+            throw new RuntimeException(
+                "Lead NOT submitted. ThankYou popup missing"
+            );
+
+        }
 
     }
     public void waitForModalBackdropToDisappear() {

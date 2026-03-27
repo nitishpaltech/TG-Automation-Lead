@@ -5,8 +5,8 @@
     <classes>
       <class name="tests.CheckTractorPriceLeadTest">
         <methods>
+          <include name="verifyGetOfferBannerLead"/>
           <include name="setup"/>
-          <include name="verifyPriceSectionTabsLead"/>
           <include name="tearDown"/>
         </methods>
       </class> <!-- tests.CheckTractorPriceLeadTest -->
