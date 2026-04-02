@@ -100,5 +100,109 @@ public class ListingPageLeadTest extends BaseUtility {
         verifyListingLead("/upcoming-tractor", false);
 
     }
+    
+    @Test
+    public void verifyLatestListingPageCTPLead() {
+
+        verifyListingLead("/latest-tractor", false);
+
+    }
+
+    @Test
+    public void verifyLatestListingPageEMILead() {
+
+        verifyListingLead("/latest-tractor", true);
+
+    }
+
+
+    @Test
+    public void verifyMiniListingPageCTPLead() {
+
+        verifyListingLead("/mini-tractors-in-india", false);
+
+    }
+
+    @Test
+    public void verifyMiniListingPageEMILead() {
+
+        verifyListingLead("/mini-tractors-in-india", true);
+
+    }
+
+
+    @Test
+    public void verify4WDListingPageCTPLead() {
+
+        verifyListingLead("/4wd-tractors-in-india", false);
+
+    }
+
+    @Test
+    public void verify4WDListingPageEMILead() {
+
+        verifyListingLead("/4wd-tractors-in-india", true);
+
+    }
+
+
+    @Test
+    public void verifyACListingPageCTPLead() {
+
+        verifyListingLead("/ac-tractors-in-india", false);
+
+    }
+
+    @Test
+    public void verifyACListingPageEMILead() {
+
+        verifyListingLead("/ac-tractors-in-india", true);
+
+    }
+
+
+    @Test
+    public void verify2WDListingPageCTPLead() {
+
+        verifyListingLead("/2wd-tractors-in-india", false);
+
+    }
+
+    @Test
+    public void verify2WDListingPageEMILead() {
+
+        verifyListingLead("/2wd-tractors-in-india", true);
+
+    }
+
+
+    @Test
+    public void verifyTremIVListingPageCTPLead() {
+
+        verifyListingLead("/trem-iv-tractors-in-india", false);
+
+    }
+
+    @Test
+    public void verifyTremIVListingPageEMILead() {
+
+        verifyListingLead("/trem-iv-tractors-in-india", true);
+
+    }
+
+
+    @Test
+    public void verifyElectricListingPageCTPLead() { 
+
+        verifyListingLead("/electric-tractors-in-india", false);
+
+    }
+
+    @Test
+    public void verifyElectricListingPageEMILead() {
+
+        verifyListingLead("/electric-tractors-in-india", true);
+
+    }
 
 }
