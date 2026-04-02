@@ -3,6 +3,9 @@ package tests;
 import org.testng.annotations.Test;
 
 import base.BaseUtility;
+
+import components.HomeCompareTractorsComponent;
+import components.HomeEnquireNowBannerComponent;
 import components.HomeGetOfferBannerComponent;
 import components.HomeHPSectionComponent;
 import components.HomeMiniTractorSectionComponent;
@@ -14,8 +17,6 @@ import constants.HomeTabType;
 import constants.PopupStrategy;
 import constants.PriceTabType;
 import utils.TestDataGenerator;
-import constants.PopupStrategy;
-
 public class CheckTractorPriceLeadTest extends BaseUtility {
 
 //    @Test
@@ -137,6 +138,64 @@ public class CheckTractorPriceLeadTest extends BaseUtility {
         fillLeadForm(leadForm);
 
     }
+    
+//    @Test
+    public void verifyEnquireNowBannerLead() {
+
+        HomeEnquireNowBannerComponent banner =
+            new HomeEnquireNowBannerComponent(driver);
+
+        LeadFormComponent leadForm =
+            new LeadFormComponent(driver);
+
+
+        banner.clickEnquireNowCTA();
+
+
+        leadForm.enterName("Test QA");
+
+        leadForm.enterMobile(
+            TestDataGenerator.generateMobile()
+        );
+
+
+        leadForm.selectStateRandom();
+
+        leadForm.selectDistrictRandom();
+
+        leadForm.selectTehsilRandom();
+
+        leadForm.selectBrandRandom();
+
+        leadForm.selectModelRandom();
+
+
+        leadForm.submitLead();
+
+    }
+    
+    @Test
+    public void verifyCompareTractorSectionLead() {
+
+        HomeCompareTractorsComponent compare =
+            new HomeCompareTractorsComponent(driver);
+
+        LeadFormComponent leadForm =
+            new LeadFormComponent(driver);
+
+
+        compare.clickFirstModelCheckPrice();
+
+        fillLeadForm(leadForm);
+
+
+        compare.clickSecondModelCheckPrice();
+
+        fillLeadForm(leadForm);
+
+    }
+
+
 
 //    @Test
     public void verifyHPSectionTabsLead() {
@@ -227,7 +286,7 @@ public class CheckTractorPriceLeadTest extends BaseUtility {
 
     }
     
-    @Test
+//    @Test
     public void verifyGetOfferBannerLead() {
 
         HomeGetOfferBannerComponent banner =
