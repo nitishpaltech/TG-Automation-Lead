@@ -36,6 +36,24 @@ public class BaseUtility {
         }
 
     }
+    
+    protected void openPage(String path) {
+
+        String env = prop.getProperty("env");
+
+        if(env.equalsIgnoreCase("testing")) {
+
+            driver.get(prop.getProperty("testingUrl") + path);
+
+        }
+
+        else if(env.equalsIgnoreCase("production")) {
+
+            driver.get(prop.getProperty("productionUrl") + path);
+
+        }
+
+    }
 
     // Browser setup
     @BeforeMethod
@@ -60,17 +78,23 @@ public class BaseUtility {
 
         driver.manage().window().maximize();
 
-        String env = prop.getProperty("env");
+        String openDefaultPage = prop.getProperty("openDefaultPage");
 
-        if(env.equalsIgnoreCase("testing")) {
+        if(openDefaultPage.equalsIgnoreCase("true")) {
 
-            driver.get(prop.getProperty("testingUrl"));
-
-        }
-
-        else if(env.equalsIgnoreCase("production")) {
-
-            driver.get(prop.getProperty("productionUrl"));
+//            String env = prop.getProperty("env");
+//
+//            if(env.equalsIgnoreCase("testing")) {
+//
+//                driver.get(prop.getProperty("testingUrl"));
+//
+//            }
+//
+//            else if(env.equalsIgnoreCase("production")) {
+//
+//                driver.get(prop.getProperty("productionUrl"));
+//
+//            }
 
         }
 

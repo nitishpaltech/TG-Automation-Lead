@@ -1,25 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results ignored="0" total="1" passed="1" failed="0" skipped="0">
+<testng-results ignored="0" total="6" passed="6" failed="0" skipped="0">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2026-04-02T15:39:06 IST" name="Default suite" finished-at="2026-04-02T15:39:48 IST" duration-ms="41637">
+  <suite started-at="2026-04-02T18:35:40 IST" name="Default suite" finished-at="2026-04-02T18:36:39 IST" duration-ms="59020">
     <groups>
     </groups>
-    <test started-at="2026-04-02T15:39:06 IST" name="Default test" finished-at="2026-04-02T15:39:48 IST" duration-ms="41637">
-      <class name="tests.CheckTractorPriceLeadTest">
-        <test-method is-config="true" signature="setup()[pri:0, instance:tests.CheckTractorPriceLeadTest@2a65fe7c]" started-at="2026-04-02T15:39:06 IST" name="setup" finished-at="2026-04-02T15:39:11 IST" duration-ms="4814" status="PASS">
+    <test started-at="2026-04-02T18:35:40 IST" name="Default test" finished-at="2026-04-02T18:36:39 IST" duration-ms="59020">
+      <class name="tests.ListingPageLeadTest">
+        <test-method is-config="true" signature="setup()[pri:0, instance:tests.ListingPageLeadTest@4562e04d]" started-at="2026-04-02T18:35:40 IST" name="setup" finished-at="2026-04-02T18:35:41 IST" duration-ms="1452" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setup -->
-        <test-method signature="verifyCompareTractorSectionLead()[pri:0, instance:tests.CheckTractorPriceLeadTest@2a65fe7c]" started-at="2026-04-02T15:39:11 IST" name="verifyCompareTractorSectionLead" finished-at="2026-04-02T15:39:48 IST" duration-ms="36607" status="PASS">
+        <test-method signature="verifyNewListingPageCTPLead()[pri:0, instance:tests.ListingPageLeadTest@4562e04d]" started-at="2026-04-02T18:35:41 IST" name="verifyNewListingPageCTPLead" finished-at="2026-04-02T18:35:54 IST" duration-ms="12800" status="PASS">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- verifyCompareTractorSectionLead -->
-        <test-method is-config="true" signature="tearDown()[pri:0, instance:tests.CheckTractorPriceLeadTest@2a65fe7c]" started-at="2026-04-02T15:39:48 IST" name="tearDown" finished-at="2026-04-02T15:39:48 IST" duration-ms="188" status="PASS">
+        </test-method> <!-- verifyNewListingPageCTPLead -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:tests.ListingPageLeadTest@4562e04d]" started-at="2026-04-02T18:35:54 IST" name="tearDown" finished-at="2026-04-02T18:35:56 IST" duration-ms="1717" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- tearDown -->
-      </class> <!-- tests.CheckTractorPriceLeadTest -->
+        <test-method is-config="true" signature="setup()[pri:0, instance:tests.ListingPageLeadTest@4562e04d]" started-at="2026-04-02T18:35:56 IST" name="setup" finished-at="2026-04-02T18:35:57 IST" duration-ms="934" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setup -->
+        <test-method signature="verifyNewListingPageEMILead()[pri:0, instance:tests.ListingPageLeadTest@4562e04d]" started-at="2026-04-02T18:35:57 IST" name="verifyNewListingPageEMILead" finished-at="2026-04-02T18:36:05 IST" duration-ms="8553" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- verifyNewListingPageEMILead -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:tests.ListingPageLeadTest@4562e04d]" started-at="2026-04-02T18:36:05 IST" name="tearDown" finished-at="2026-04-02T18:36:05 IST" duration-ms="166" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+        <test-method is-config="true" signature="setup()[pri:0, instance:tests.ListingPageLeadTest@4562e04d]" started-at="2026-04-02T18:36:05 IST" name="setup" finished-at="2026-04-02T18:36:06 IST" duration-ms="999" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setup -->
+        <test-method signature="verifyPopularListingPageCTPLead()[pri:0, instance:tests.ListingPageLeadTest@4562e04d]" started-at="2026-04-02T18:36:06 IST" name="verifyPopularListingPageCTPLead" finished-at="2026-04-02T18:36:14 IST" duration-ms="7819" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- verifyPopularListingPageCTPLead -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:tests.ListingPageLeadTest@4562e04d]" started-at="2026-04-02T18:36:14 IST" name="tearDown" finished-at="2026-04-02T18:36:14 IST" duration-ms="162" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+        <test-method is-config="true" signature="setup()[pri:0, instance:tests.ListingPageLeadTest@4562e04d]" started-at="2026-04-02T18:36:14 IST" name="setup" finished-at="2026-04-02T18:36:15 IST" duration-ms="991" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setup -->
+        <test-method signature="verifyPopularListingPageEMILead()[pri:0, instance:tests.ListingPageLeadTest@4562e04d]" started-at="2026-04-02T18:36:15 IST" name="verifyPopularListingPageEMILead" finished-at="2026-04-02T18:36:23 IST" duration-ms="7803" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- verifyPopularListingPageEMILead -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:tests.ListingPageLeadTest@4562e04d]" started-at="2026-04-02T18:36:23 IST" name="tearDown" finished-at="2026-04-02T18:36:23 IST" duration-ms="155" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+        <test-method is-config="true" signature="setup()[pri:0, instance:tests.ListingPageLeadTest@4562e04d]" started-at="2026-04-02T18:36:23 IST" name="setup" finished-at="2026-04-02T18:36:24 IST" duration-ms="940" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setup -->
+        <test-method signature="verifyUpcomingListingPageCTPLead()[pri:0, instance:tests.ListingPageLeadTest@4562e04d]" started-at="2026-04-02T18:36:24 IST" name="verifyUpcomingListingPageCTPLead" finished-at="2026-04-02T18:36:31 IST" duration-ms="6642" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- verifyUpcomingListingPageCTPLead -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:tests.ListingPageLeadTest@4562e04d]" started-at="2026-04-02T18:36:31 IST" name="tearDown" finished-at="2026-04-02T18:36:31 IST" duration-ms="181" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+        <test-method is-config="true" signature="setup()[pri:0, instance:tests.ListingPageLeadTest@4562e04d]" started-at="2026-04-02T18:36:31 IST" name="setup" finished-at="2026-04-02T18:36:32 IST" duration-ms="1011" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setup -->
+        <test-method signature="verifyUpcomingListingPageEMILead()[pri:0, instance:tests.ListingPageLeadTest@4562e04d]" started-at="2026-04-02T18:36:32 IST" name="verifyUpcomingListingPageEMILead" finished-at="2026-04-02T18:36:38 IST" duration-ms="6454" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- verifyUpcomingListingPageEMILead -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:tests.ListingPageLeadTest@4562e04d]" started-at="2026-04-02T18:36:38 IST" name="tearDown" finished-at="2026-04-02T18:36:39 IST" duration-ms="186" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+      </class> <!-- tests.ListingPageLeadTest -->
     </test> <!-- Default test -->
   </suite> <!-- Default suite -->
 </testng-results>
