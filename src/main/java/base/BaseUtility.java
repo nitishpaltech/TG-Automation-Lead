@@ -56,49 +56,51 @@ public class BaseUtility {
     }
 
     // Browser setup
-    @BeforeMethod
-    public void setup() {
+   @BeforeMethod
+   public void setup() {
 
-        loadConfig();
+    loadConfig();
 
-        String browser = prop.getProperty("browser");
+    String browser = prop.getProperty("browser");
 
-        if (browser.equalsIgnoreCase("chrome")) {
+    if (browser.equalsIgnoreCase("chrome")) {
 
-            driver = new ChromeDriver();
+        driver = new ChromeDriver();
 
-        } else if (browser.equalsIgnoreCase("edge")) {
+    }
 
-            driver = new EdgeDriver();
+    else if (browser.equalsIgnoreCase("edge")) {
+
+        driver = new EdgeDriver();
+
+    }
+
+    driver.manage().timeouts()
+            .implicitlyWait(Duration.ofSeconds(10));
+
+    driver.manage().window().maximize();
+
+    String openDefaultPage = prop.getProperty("openDefaultPage");
+
+    if(openDefaultPage.equalsIgnoreCase("true")) {
+
+        String env = prop.getProperty("env");
+
+        if(env.equalsIgnoreCase("testing")) {
+
+            driver.get(prop.getProperty("testingUrl"));
 
         }
 
-        driver.manage().timeouts()
-                .implicitlyWait(Duration.ofSeconds(10));
+        else if(env.equalsIgnoreCase("production")) {
 
-        driver.manage().window().maximize();
-
-        String openDefaultPage = prop.getProperty("openDefaultPage");
-
-        if(openDefaultPage.equalsIgnoreCase("true")) {
-
-//            String env = prop.getProperty("env");
-//
-//            if(env.equalsIgnoreCase("testing")) {
-//
-//                driver.get(prop.getProperty("testingUrl"));
-//
-//            }
-//
-//            else if(env.equalsIgnoreCase("production")) {
-//
-//                driver.get(prop.getProperty("productionUrl"));
-//
-//            }
+            driver.get(prop.getProperty("productionUrl"));
 
         }
 
     }
+
+}
 
     // Browser close
     @AfterMethod

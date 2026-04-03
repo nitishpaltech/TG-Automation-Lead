@@ -19,159 +19,120 @@ import constants.PriceTabType;
 import utils.TestDataGenerator;
 public class CheckTractorPriceLeadTest extends BaseUtility {
 
-//    @Test
-    public void verifyHomeSectionTabsLead() throws InterruptedException {
+	private void verifyHomeTabLead(HomeTabType tabType) {
 
-        HomeTractorSectionComponent section =
-                new HomeTractorSectionComponent(driver);
+	    HomeTractorSectionComponent section =
+	            new HomeTractorSectionComponent(driver);
 
-        LeadFormComponent leadForm =
-                new LeadFormComponent(driver);
-
-
-        // Popular tab
-
-        section.selectTab(HomeTabType.POPULAR);
-
-        section.clickFirstCardCTP(HomeTabType.POPULAR);
-
-        Thread.sleep(2000);
-
-        fillLeadForm(leadForm);
+	    LeadFormComponent leadForm =
+	            new LeadFormComponent(driver);
 
 
-        driver.navigate().refresh();
+	    section.selectTab(tabType);
+
+	    section.clickFirstCardCTP(tabType);
+
+	    fillLeadForm(leadForm);
+
+	}
+	
+	private void verifyPriceTabLead(PriceTabType tabType) {
+
+	    HomePriceSectionComponent priceSection =
+	            new HomePriceSectionComponent(driver);
+
+	    LeadFormComponent leadForm =
+	            new LeadFormComponent(driver);
 
 
-        // Latest tab
+	    priceSection.selectTab(tabType);
 
-        section.selectTab(HomeTabType.LATEST);
+	    priceSection.clickFirstCardCTP(tabType);
 
-        section.clickFirstCardCTP(HomeTabType.LATEST);
+	    fillLeadForm(leadForm);
 
-        Thread.sleep(2000);
+	}
+	
+	private void verifyHPTabLead(HPTabType tabType) {
 
-        fillLeadForm(leadForm);
+	    HomeHPSectionComponent hpSection =
+	            new HomeHPSectionComponent(driver);
+
+	    LeadFormComponent leadForm =
+	            new LeadFormComponent(driver);
 
 
-        driver.navigate().refresh();
+	    hpSection.selectTab(tabType);
+
+	    hpSection.clickFirstCardCTP(tabType);
+
+	    fillLeadForm(leadForm);
+
+	}
+	
+	private void verifyEnquireNowLead() {
+
+	    HomeEnquireNowBannerComponent banner =
+	            new HomeEnquireNowBannerComponent(driver);
+
+	    LeadFormComponent leadForm =
+	            new LeadFormComponent(driver);
 
 
-        // Upcoming tab
+	    banner.clickEnquireNowCTA();
 
-        section.selectTab(HomeTabType.UPCOMING);
+	    leadForm.enterName("Test QA");
 
-        section.clickFirstCardCTP(HomeTabType.UPCOMING);
+	    leadForm.enterMobile(
+	            TestDataGenerator.generateMobile()
+	    );
 
-        Thread.sleep(2000);
+	    leadForm.selectStateRandom();
 
-        fillLeadForm(leadForm);
+	    leadForm.selectDistrictRandom();
 
+	    leadForm.selectTehsilRandom();
+
+	    leadForm.selectBrandRandom();
+
+	    leadForm.selectModelRandom();
+
+	    leadForm.submitLead();
+	}
+    
+	 @Test
+	public void verifyHomeSectionTabsLead() {
+
+    verifyHomeTabLead(HomeTabType.POPULAR);
+
+    driver.navigate().refresh();
+
+    verifyHomeTabLead(HomeTabType.LATEST);
+
+    driver.navigate().refresh();
+
+    verifyHomeTabLead(HomeTabType.UPCOMING);
     }
     
-//    @Test
+    @Test
+
     public void verifyPriceSectionTabsLead() {
 
-        HomePriceSectionComponent priceSection =
-            new HomePriceSectionComponent(driver);
+    verifyPriceTabLead(PriceTabType.UNDER_3_LAKH);
 
-        LeadFormComponent leadForm =
-            new LeadFormComponent(driver);
+    verifyPriceTabLead(PriceTabType.THREE_TO_FIVE);
 
+    verifyPriceTabLead(PriceTabType.FIVE_TO_SEVEN);
 
-        priceSection.selectTab(
-            PriceTabType.UNDER_3_LAKH
-        );
+    verifyPriceTabLead(PriceTabType.SEVEN_TO_TEN);
 
-        priceSection.clickFirstCardCTP(
-            PriceTabType.UNDER_3_LAKH
-        );
-
-        fillLeadForm(leadForm);
-
-
-
-        priceSection.selectTab(
-            PriceTabType.THREE_TO_FIVE
-        );
-
-        priceSection.clickFirstCardCTP(
-            PriceTabType.THREE_TO_FIVE
-        );
-
-        fillLeadForm(leadForm);
-
-
-
-        priceSection.selectTab(
-            PriceTabType.FIVE_TO_SEVEN
-        );
-
-        priceSection.clickFirstCardCTP(
-            PriceTabType.FIVE_TO_SEVEN
-        );
-
-        fillLeadForm(leadForm);
-
-
-
-        priceSection.selectTab(
-            PriceTabType.SEVEN_TO_TEN
-        );
-
-        priceSection.clickFirstCardCTP(
-            PriceTabType.SEVEN_TO_TEN
-        );
-
-        fillLeadForm(leadForm);
-
-
-
-        priceSection.selectTab(
-            PriceTabType.ABOVE_TEN
-        );
-
-        priceSection.clickFirstCardCTP(
-            PriceTabType.ABOVE_TEN
-        );
-
-        fillLeadForm(leadForm);
-
+    verifyPriceTabLead(PriceTabType.ABOVE_TEN);
     }
     
-//    @Test
-    public void verifyEnquireNowBannerLead() {
+   @Test
+   public void verifyEnquireNowBannerLead() {
 
-        HomeEnquireNowBannerComponent banner =
-            new HomeEnquireNowBannerComponent(driver);
-
-        LeadFormComponent leadForm =
-            new LeadFormComponent(driver);
-
-
-        banner.clickEnquireNowCTA();
-
-
-        leadForm.enterName("Test QA");
-
-        leadForm.enterMobile(
-            TestDataGenerator.generateMobile()
-        );
-
-
-        leadForm.selectStateRandom();
-
-        leadForm.selectDistrictRandom();
-
-        leadForm.selectTehsilRandom();
-
-        leadForm.selectBrandRandom();
-
-        leadForm.selectModelRandom();
-
-
-        leadForm.submitLead();
-
+    verifyEnquireNowLead();
     }
     
     @Test
@@ -197,54 +158,18 @@ public class CheckTractorPriceLeadTest extends BaseUtility {
 
 
 
-//    @Test
-    public void verifyHPSectionTabsLead() {
+   @Test
+   public void verifyHPSectionTabsLead() {
 
-        HomeHPSectionComponent hpSection =
-            new HomeHPSectionComponent(driver);
+    verifyHPTabLead(HPTabType.UNDER_30_HP);
 
-        LeadFormComponent leadForm =
-            new LeadFormComponent(driver);
+    verifyHPTabLead(HPTabType.HP_30_TO_50);
 
+    verifyHPTabLead(HPTabType.HP_50_TO_70);
 
-        hpSection.selectTab(HPTabType.UNDER_30_HP);
+    verifyHPTabLead(HPTabType.HP_70_TO_100);
 
-        hpSection.clickFirstCardCTP(HPTabType.UNDER_30_HP);
-
-        fillLeadForm(leadForm);
-
-
-
-        hpSection.selectTab(HPTabType.HP_30_TO_50);
-
-        hpSection.clickFirstCardCTP(HPTabType.HP_30_TO_50);
-
-        fillLeadForm(leadForm);
-
-
-
-        hpSection.selectTab(HPTabType.HP_50_TO_70);
-
-        hpSection.clickFirstCardCTP(HPTabType.HP_50_TO_70);
-
-        fillLeadForm(leadForm);
-
-
-
-        hpSection.selectTab(HPTabType.HP_70_TO_100);
-
-        hpSection.clickFirstCardCTP(HPTabType.HP_70_TO_100);
-
-        fillLeadForm(leadForm);
-
-
-
-        hpSection.selectTab(HPTabType.ABOVE_100_HP);
-
-        hpSection.clickFirstCardCTP(HPTabType.ABOVE_100_HP);
-
-        fillLeadForm(leadForm);
-
+    verifyHPTabLead(HPTabType.ABOVE_100_HP);
     }
 
     private void fillLeadForm(LeadFormComponent leadForm) {
@@ -261,16 +186,16 @@ public class CheckTractorPriceLeadTest extends BaseUtility {
         leadForm.submitLead();
         
         leadForm.handleThankYouPopup(
-                PopupStrategy.CLOSE_POPUP);
+//                PopupStrategy.CLOSE_POPUP);
 //              OR
-//              PopupStrategy.SUBMIT_RECOMMENDED_LEAD);
+              PopupStrategy.SUBMIT_RECOMMENDED_LEAD);
 //              OR
 //              PopupStrategy.IGNORE_POPUP);
         
 
     } 
     
-//    @Test
+    @Test
     public void verifyMiniTractorSectionLead() {
 
         HomeMiniTractorSectionComponent miniSection =
@@ -286,7 +211,7 @@ public class CheckTractorPriceLeadTest extends BaseUtility {
 
     }
     
-//    @Test
+    @Test
     public void verifyGetOfferBannerLead() {
 
         HomeGetOfferBannerComponent banner =

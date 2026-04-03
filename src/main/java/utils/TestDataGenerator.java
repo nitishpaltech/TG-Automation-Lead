@@ -1,23 +1,43 @@
 package utils;
 
+import java.util.Random;
+
 import base.BaseUtility;
 
 public class TestDataGenerator {
 
-    public static String generateMobile() {
+  public static String generateMobile() {
 
-        String env = BaseUtility.prop.getProperty("env");
+    String env =
+        BaseUtility.prop.getProperty("env");
 
-        if(env.equalsIgnoreCase("production")) {
+    if(env.equalsIgnoreCase("production")) {
 
-            return BaseUtility.prop.getProperty(
-                    "productionTestMobile"
+        String mobile =
+            BaseUtility.prop.getProperty(
+                "productionMobile"
             );
+
+        if(mobile != null) {
+
+            return mobile;
 
         }
 
-        return "9" + (int)(Math.random() * 900000000 + 100000000);
-
     }
+
+    return generateRandomMobile();
+
+}
+private static String generateRandomMobile() {
+
+    Random rand = new Random();
+
+    return "9" +
+        (rand.nextInt(900000000) + 100000000);
+
+}
+
+
 
 }

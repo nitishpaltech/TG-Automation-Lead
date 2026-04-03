@@ -5,6 +5,7 @@ import org.testng.annotations.Test;
 import base.BaseUtility;
 import components.LeadFormComponent;
 import components.ListingPageComponent;
+import constants.PopupStrategy;
 
 public class ListingPageLeadTest extends BaseUtility {
 
@@ -24,6 +25,15 @@ public class ListingPageLeadTest extends BaseUtility {
         leadForm.selectTehsilRandom();
 
         leadForm.submitLead();
+        leadForm.handleThankYouPopup(
+//              PopupStrategy.CLOSE_POPUP);
+//            OR
+            PopupStrategy.SUBMIT_RECOMMENDED_LEAD);
+//            OR
+//            PopupStrategy.IGNORE_POPUP);
+      
+
+  
 
     }
 
@@ -31,7 +41,7 @@ public class ListingPageLeadTest extends BaseUtility {
     private void verifyListingLead(String url, boolean isEMI) {
 
     	openPage(url);
-    ListingPageComponent listing =
+    ListingPageComponent listing = 
             new ListingPageComponent(driver);
 
     LeadFormComponent leadForm =

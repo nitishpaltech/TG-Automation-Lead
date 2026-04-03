@@ -3,16 +3,15 @@
 <suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="tests.ListingPageLeadTest">
+      <class name="tests.CheckTractorPriceLeadTest">
         <methods>
-          <include name="verifyUpcomingListingPageCTPLead"/>
+          <include name="verifyHPSectionTabsLead"/>
+          <include name="verifyGetOfferBannerLead"/>
           <include name="setup"/>
-          <include name="verifyPopularListingPageCTPLead"/>
           <include name="tearDown"/>
-          <include name="verifyUpcomingListingPageEMILead"/>
-          <include name="verifyPopularListingPageEMILead"/>
+          <include name="verifyHomeSectionTabsLead"/>
         </methods>
-      </class> <!-- tests.ListingPageLeadTest -->
+      </class> <!-- tests.CheckTractorPriceLeadTest -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

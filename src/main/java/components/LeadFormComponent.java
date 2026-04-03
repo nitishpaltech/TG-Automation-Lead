@@ -7,8 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-
-
+import base.BaseUtility;
 import constants.PopupStrategy;
 
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -196,36 +195,64 @@ public void selectModelRandom() {
 
 }
 
-    public void submitLead() {
+ public void submitLead() {
 
-        WebDriverWait wait =
-            new WebDriverWait(driver, Duration.ofSeconds(15));
+    submitLead(true);
 
-        driver.findElement(submitBtn).click();
+}
+ 
+ public void submitLead(boolean isThankYouPopupExpected) {
+
+	    WebDriverWait wait =
+	        new WebDriverWait(driver, Duration.ofSeconds(15));
+
+	    String submitFlag =
+	    	    BaseUtility.prop.getProperty("submitLead");
+
+	    	if(submitFlag.equalsIgnoreCase("false")) {
+
+	    	    System.out.println(
+	    	        "Submit skipped on production environment"
+	    	    );
+
+	    	    return;
+
+	    	}
+
+	    	driver.findElement(submitBtn).click();
 
 
-        // wait for thank you popup
+	    if(!isThankYouPopupExpected) {
 
-        try {
+	        System.out.println(
+	            "Lead submitted (popup not expected)"
+	        );
 
-            wait.until(ExpectedConditions
-                .visibilityOfElementLocated(
-                    By.id("enquiryIdThanks")
-                ));
+	        return;
 
-            System.out.println("Lead submitted successfully");
+	    }
 
-        }
 
-        catch (Exception e) {
+	    try {
 
-            throw new RuntimeException(
-                "Lead NOT submitted. ThankYou popup missing"
-            );
+	        wait.until(ExpectedConditions
+	            .visibilityOfElementLocated(
+	                By.id("enquiryIdThanks")
+	            ));
 
-        }
+	        System.out.println("Lead submitted successfully");
 
-    }
+	    }
+
+	    catch (Exception e) {
+
+	        throw new RuntimeException(
+	            "Lead NOT submitted. ThankYou popup missing"
+	        );
+
+	    }
+
+	}
     public void waitForModalBackdropToDisappear() {
 
         WebDriverWait wait =
@@ -250,57 +277,31 @@ public void selectModelRandom() {
 
     }
     
-   public void handleThankYouPopup(PopupStrategy strategy) {
+ public void handleThankYouPopup(PopupStrategy strategy) {
 
-    WebDriverWait wait =
-        new WebDriverWait(driver, Duration.ofSeconds(5));
+    if(strategy == PopupStrategy.NO_POPUP_EXPECTED) {
 
-    try {
+        System.out.println("Popup handling skipped");
 
-        By popupOverlay =
-            By.id("enquiryIdThanks");
-
-        By popupCloseBtn =
-            By.className("enquiryThanks-close");
-
-
-        wait.until(ExpectedConditions
-        .presenceOfElementLocated(popupOverlay));
-
-
-        WebElement overlay =
-            driver.findElement(popupOverlay);
-
-
-        if(overlay.isDisplayed()) {
-
-            if(strategy ==
-                PopupStrategy.CLOSE_POPUP) {
-
-                wait.until(ExpectedConditions
-                .elementToBeClickable(popupCloseBtn));
-
-                driver.findElement(popupCloseBtn)
-                .click();
-
-            }
-
-        }
-
-
-        // wait for modal backdrop removal
-
-        waitForModalBackdropToDisappear();
-        removeRecommendedOverlay();
-        removeThankYouOverlay();
+        return;
 
     }
 
-    catch(Exception e) {
+    if(strategy == PopupStrategy.SUBMIT_RECOMMENDED_LEAD) {
 
-        System.out.println(
-        "No Thank You popup appeared"
-        );
+       
+
+    }
+
+    else if(strategy == PopupStrategy.CLOSE_POPUP) {
+
+       
+
+    }
+
+    else {
+
+        System.out.println("Popup ignored");
 
     }
 

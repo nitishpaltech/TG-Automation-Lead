@@ -6,6 +6,7 @@ public enum PopupStrategy {
 
     SUBMIT_RECOMMENDED_LEAD,
 
-    IGNORE_POPUP
+    IGNORE_POPUP,
+    NO_POPUP_EXPECTED
 
 }
