@@ -95,7 +95,7 @@ public class CheckTractorPriceLeadTest extends BaseUtility {
 
 	    leadForm.selectBrandRandom();
 
-	    leadForm.selectModelRandom();
+	    leadForm.selectModelRandomMandatory();
 
 	    leadForm.submitLead();
 	}
@@ -235,7 +235,7 @@ public class CheckTractorPriceLeadTest extends BaseUtility {
         leadForm.selectTehsilRandom();
 
         leadForm.selectBrandRandom();
-        leadForm.selectModelRandom();
+        leadForm.selectModelRandomMandatory();
 
 
         leadForm.submitLead();

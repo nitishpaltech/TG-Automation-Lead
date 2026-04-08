@@ -12,348 +12,397 @@ import constants.PopupStrategy;
 
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.time.Duration;
+import java.util.List;
 import java.util.concurrent.TimeoutException;
-
 
 public class LeadFormComponent {
 
-    WebDriver driver;
+	WebDriver driver;
 
-    public LeadFormComponent(WebDriver driver) {
+	public LeadFormComponent(WebDriver driver) {
 
-        this.driver = driver;
-
-    }
-
-    By nameField = By.name("userName");
-
-    By mobileField = By.id("userMobileNumber");
-
-    By stateDropdown = By.id("userState");
-
-    By districtDropdown = By.id("userDistrict");
-
-    By tehsilDropdown = By.id("userTehsil");
-
-    By submitBtn = By.id("button_text");
-
-    
-    By thankYouPopup =
-            By.className("enquiryThanks-centered");
-
-    By popupCloseBtn =
-            By.className("enquiryThanks-close");
-
-    By recommendedLeadBtn =
-            By.id("submitRecommendedProductsLead");
-    
-    By brandDropdown =
-    	    By.id("userBrand");
-
-    	By modelDropdown =
-    	    By.id("userModel");
-    	
-    	private void selectRandomOption(By locator) {
-
-    	    try {
-
-    	        WebElement dropdown =
-    	            driver.findElement(locator);
-
-    	        if (!dropdown.isDisplayed()) {
-
-    	            return;
-
-    	        }
-
-    	        Select select =
-    	            new Select(dropdown);
-
-    	        int optionCount =
-    	            select.getOptions().size();
-
-    	        if (optionCount <= 1) {
-
-    	            return;
-
-    	        }
-
-    	        int randomIndex =
-    	            1 + (int)(Math.random() *
-    	            (optionCount - 1));
-
-    	        select.selectByIndex(randomIndex);
-
-    	    }
-
-    	    catch (Exception e) {
-
-    	        System.out.println(
-    	        "Dropdown not available: " + locator
-    	        );
-
-    	    }
-
-    	}
-    	
-    
-    public void enterName(String name) {
-
-        WebDriverWait wait =
-            new WebDriverWait(driver, Duration.ofSeconds(10));
-
-        By nameLocator =
-            By.name("userName");
-
-        WebElement nameInput =
-            wait.until(ExpectedConditions
-            .visibilityOfElementLocated(nameLocator));
-
-        nameInput.clear();
-
-        nameInput.sendKeys(name);
-
-    }
-
-    public void enterMobile(String mobile) {
-
-        WebDriverWait wait =
-            new WebDriverWait(driver, Duration.ofSeconds(10));
-
-        By mobileLocator =
-            By.id("userMobileNumber");
-
-        WebElement mobileInput =
-            wait.until(ExpectedConditions
-            .visibilityOfElementLocated(mobileLocator));
-
-        mobileInput.clear();
-
-        mobileInput.sendKeys(mobile);
-
-    }
-
-    public void selectStateRandom() {
-
-        selectRandomOption(stateDropdown);
-
-        waitForDropdownLoad(districtDropdown);
-
-    }
-
-
-    public void selectDistrictRandom() {
-
-        selectRandomOption(districtDropdown);
-
-        waitForDropdownLoad(tehsilDropdown);
-
-    }
-
-
-public void selectTehsilRandom() {
-
-    selectRandomOption(tehsilDropdown);
-
-}
-
-public void selectBrandRandom() {
-
-    selectRandomOption(brandDropdown);
-
-    waitForDropdownLoad(modelDropdown);
-
-}
-
-
-private void waitForDropdownLoad(By locator) {
-
-    try {
-
-        new WebDriverWait(driver,
-        Duration.ofSeconds(5))
-        .until(driver -> {
-
-            Select select =
-            new Select(
-            driver.findElement(locator));
-
-            return select.getOptions().size() > 1;
-
-        });
-
-    }
-
-    catch (Exception ignored) {}
-
-}
-
-
-public void selectModelRandom() {
-
-    selectRandomOption(modelDropdown);
-
-}
-
- public void submitLead() {
-
-    submitLead(true);
-
-}
- 
- public void submitLead(boolean isThankYouPopupExpected) {
-
-	    WebDriverWait wait =
-	        new WebDriverWait(driver, Duration.ofSeconds(15));
-
-	    String submitFlag =
-	    	    BaseUtility.prop.getProperty("submitLead");
-
-	    	if(submitFlag.equalsIgnoreCase("false")) {
-
-	    	    System.out.println(
-	    	        "Submit skipped on production environment"
-	    	    );
-
-	    	    return;
-
-	    	}
-
-	    	driver.findElement(submitBtn).click();
-
-
-	    if(!isThankYouPopupExpected) {
-
-	        System.out.println(
-	            "Lead submitted (popup not expected)"
-	        );
-
-	        return;
-
-	    }
-
-
-	    try {
-
-	        wait.until(ExpectedConditions
-	            .visibilityOfElementLocated(
-	                By.id("enquiryIdThanks")
-	            ));
-
-	        System.out.println("Lead submitted successfully");
-
-	    }
-
-	    catch (Exception e) {
-
-	        throw new RuntimeException(
-	            "Lead NOT submitted. ThankYou popup missing"
-	        );
-
-	    }
+		this.driver = driver;
 
 	}
-    public void waitForModalBackdropToDisappear() {
+
+	By nameField = By.name("userName");
+
+	By mobileField = By.id("userMobileNumber");
+
+	By stateDropdown = By.id("userState");
+
+	By districtDropdown = By.id("userDistrict");
+
+	By tehsilDropdown = By.id("userTehsil");
+
+	By submitBtn = By.id("button_text");
+
+	By thankYouPopup = By.className("enquiryThanks-centered");
+
+	By popupCloseBtn = By.className("enquiryThanks-close");
+
+	By recommendedLeadBtn = By.id("submitRecommendedProductsLead");
+
+	By brandDropdown = By.id("userBrand");
+
+	By modelDropdown = By.id("userModel");
+
+	private void selectRandomOption(By locator) {
+
+		try {
+
+			WebElement dropdown = driver.findElement(locator);
+
+			if (!dropdown.isDisplayed()) {
+
+				return;
+
+			}
+
+			Select select = new Select(dropdown);
+
+			int optionCount = select.getOptions().size();
+
+			if (optionCount <= 1) {
+
+				return;
+
+			}
+
+			int randomIndex = 1 + (int) (Math.random() * (optionCount - 1));
+
+			select.selectByIndex(randomIndex);
+
+		}
+
+		catch (Exception e) {
+
+			System.out.println("Dropdown not available: " + locator);
+
+		}
+
+	}
+
+	public void enterName(String name) {
+
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+		By nameLocator = By.name("userName");
+
+		WebElement nameInput = wait.until(ExpectedConditions.visibilityOfElementLocated(nameLocator));
+
+		nameInput.clear();
+
+		nameInput.sendKeys(name);
+
+	}
+
+	public void enterMobile(String mobile) {
+
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+		By mobileLocator = By.id("userMobileNumber");
+
+		WebElement mobileInput = wait.until(ExpectedConditions.visibilityOfElementLocated(mobileLocator));
+
+		mobileInput.clear();
+
+		mobileInput.sendKeys(mobile);
+
+	}
+
+	public void selectStateRandom() {
+
+		selectRandomOption(stateDropdown);
+
+		waitForDropdownLoad(districtDropdown);
+
+	}
+
+	public void selectDistrictRandom() {
+
+		selectRandomOption(districtDropdown);
+
+		waitForDropdownLoad(tehsilDropdown);
+
+	}
+
+	public void selectTehsilRandom() {
+
+		selectRandomOption(tehsilDropdown);
+
+	}
+
+	public void selectBrandRandom() {
+
+		selectRandomOption(brandDropdown);
+
+		waitForDropdownLoad(modelDropdown);
+
+	}
+
+	private void waitForDropdownLoad(By locator) {
+
+		try {
+
+			new WebDriverWait(driver, Duration.ofSeconds(5)).until(driver -> {
+
+				Select select = new Select(driver.findElement(locator));
+
+				return select.getOptions().size() > 1;
+
+			});
+
+		}
+
+		catch (Exception ignored) {
+		}
+
+	}
+
+	public void selectModelRandomIfPresent() {
+
+    try {
 
         WebDriverWait wait =
             new WebDriverWait(driver, Duration.ofSeconds(5));
 
-        try {
+        WebElement dropdown =
+            wait.until(
+                ExpectedConditions.presenceOfElementLocated(
+                    By.xpath(
+                        "//select[@id='userModels'] | " +
+                        "//select[contains(@name,'model')] | " +
+                        "//select[@id='model_id']"
+                    )
+                )
+            );
 
-            wait.until(ExpectedConditions
-            .invisibilityOfElementLocated(
-                By.className("modal-backdrop")
-            ));
+        Select select =
+            new Select(dropdown);
 
-        }
+        if(select.getOptions().size() > 1) {
 
-        catch(Exception e) {
+            select.selectByIndex(1);
 
             System.out.println(
-            "Backdrop already removed"
+                "Model selected successfully"
             );
 
         }
 
     }
-    
- public void handleThankYouPopup(PopupStrategy strategy) {
 
-    if(strategy == PopupStrategy.NO_POPUP_EXPECTED) {
+    catch(Exception e) {
 
-        System.out.println("Popup handling skipped");
-
-        return;
-
-    }
-
-    if(strategy == PopupStrategy.SUBMIT_RECOMMENDED_LEAD) {
-
-       
-
-    }
-
-    else if(strategy == PopupStrategy.CLOSE_POPUP) {
-
-       
-
-    }
-
-    else {
-
-        System.out.println("Popup ignored");
+        System.out.println(
+            "Model dropdown not present — skipping selection"
+        );
 
     }
 
 }
+	public void submitLead() {
 
-   public void removeThankYouOverlay() {
-
-	    try {
-
-	        ((JavascriptExecutor) driver)
-	        .executeScript(
-	        "document.getElementById('enquiryIdThanks')?.remove();"
-	        );
-
-	        System.out.println(
-	        "ThankYou overlay removed"
-	        );
-
-	    }
-
-	    catch(Exception e) {
-
-	        System.out.println(
-	        "No ThankYou overlay present"
-	        );
-
-	    }
+		submitLead(true);
 
 	}
 
-   public void removeRecommendedOverlay() {
+	public void submitLead(boolean isThankYouPopupExpected) {
+		System.out.println("Popup expected = " + isThankYouPopupExpected);
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
 
-	    try {
+		String submitFlag = BaseUtility.prop.getProperty("submitLead");
 
-	        ((JavascriptExecutor) driver)
-	        .executeScript(
-	        "document.querySelectorAll('.checkbox-tile').forEach(e=>e.remove());"
-	        );
+		if (submitFlag.equalsIgnoreCase("false")) {
 
-	        System.out.println(
-	        "Recommended overlay removed"
-	        );
+			System.out.println("Submit skipped on production environment");
 
-	    }
+			return;
 
-	    catch(Exception e) {
+		}
 
-	        System.out.println(
-	        "No recommended overlay present"
-	        );
+		driver.findElement(submitBtn).click();
 
-	    }
+		if(!isThankYouPopupExpected) {
+
+    System.out.println(
+        "Dealer-type lead submitted — waiting overlay confirmation"
+    );
+
+    WebDriverWait wait1 =
+        new WebDriverWait(driver, Duration.ofSeconds(12));
+
+    try {
+
+        WebElement overlayCloseBtn =
+        		wait1.until(
+                ExpectedConditions.elementToBeClickable(
+                    By.xpath(
+                        "//span[@id='thankyouClose'] | " +
+                        "//span[contains(@class,'popup_close')] | " +
+                        "//span[contains(@class,'enquiryThanks-close')] | " +
+                        "//img[contains(@onclick,'closeThanksPopUp')]"
+                    )
+                )
+            );
+
+        overlayCloseBtn.click();
+
+        System.out.println(
+            "Overlay ThankYou popup detected → Lead success"
+        );
+
+    }
+
+    catch(Exception e) {
+
+        throw new RuntimeException(
+            "Dealer lead NOT submitted — overlay popup missing"
+        );
+
+    }
+
+    return;
+
+}
+
+		try {
+
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("enquiryIdThanks")));
+
+			System.out.println("Lead submitted successfully");
+
+		}
+
+		catch (Exception e) {
+
+			throw new RuntimeException("Lead NOT submitted. ThankYou popup missing");
+
+		}
+
+	}
+
+	public void waitForModalBackdropToDisappear() {
+
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+
+		try {
+
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.className("modal-backdrop")));
+
+		}
+
+		catch (Exception e) {
+
+			System.out.println("Backdrop already removed");
+
+		}
+
+	}
+	public void selectModelRandomMandatory() {
+
+    try {
+
+        WebDriverWait wait =
+            new WebDriverWait(driver, Duration.ofSeconds(15));
+
+        WebElement dropdown =
+            wait.until(
+                ExpectedConditions.elementToBeClickable(
+                    By.xpath(
+                        "//select[@id='userModel'] | " +   // NEW locator
+                        "//select[@id='userModels'] | " +
+                        "//select[contains(@name,'model')] | " +
+                        "//select[@id='model_id']"
+                    )
+                )
+            );
+
+        Select select =
+            new Select(dropdown);
+
+        wait.until(driver ->
+            select.getOptions().size() > 1
+        );
+
+        select.selectByIndex(1);
+
+        System.out.println(
+            "Mandatory model selected successfully"
+        );
+
+    }
+
+    catch(Exception e) {
+
+        throw new RuntimeException(
+            "Mandatory model dropdown missing OR not loaded after brand selection"
+        );
+
+    }
+
+}
+	public void handleThankYouPopup(PopupStrategy strategy) {
+
+		if (strategy == PopupStrategy.NO_POPUP_EXPECTED) {
+
+			System.out.println("Popup handling skipped");
+
+			return;
+
+		}
+
+		if (strategy == PopupStrategy.SUBMIT_RECOMMENDED_LEAD) {
+
+		}
+
+		else if (strategy == PopupStrategy.CLOSE_POPUP) {
+
+		}
+
+		else {
+
+			System.out.println("Popup ignored");
+
+		}
+
+	}
+
+	public void removeThankYouOverlay() {
+
+		try {
+
+			((JavascriptExecutor) driver).executeScript("document.getElementById('enquiryIdThanks')?.remove();");
+
+			System.out.println("ThankYou overlay removed");
+
+		}
+
+		catch (Exception e) {
+
+			System.out.println("No ThankYou overlay present");
+
+		}
+
+	}
+
+	public void removeRecommendedOverlay() {
+
+		try {
+
+			((JavascriptExecutor) driver)
+					.executeScript("document.querySelectorAll('.checkbox-tile').forEach(e=>e.remove());");
+
+			System.out.println("Recommended overlay removed");
+
+		}
+
+		catch (Exception e) {
+
+			System.out.println("No recommended overlay present");
+
+		}
 
 	}
 

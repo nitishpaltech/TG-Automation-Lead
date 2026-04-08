@@ -3,15 +3,13 @@
 <suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="tests.CheckTractorPriceLeadTest">
+      <class name="tests.BrandPageLeadTest">
         <methods>
-          <include name="verifyHPSectionTabsLead"/>
-          <include name="verifyGetOfferBannerLead"/>
           <include name="setup"/>
           <include name="tearDown"/>
-          <include name="verifyHomeSectionTabsLead"/>
+          <include name="verifyBrandPageBestPriceLead"/>
         </methods>
-      </class> <!-- tests.CheckTractorPriceLeadTest -->
+      </class> <!-- tests.BrandPageLeadTest -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

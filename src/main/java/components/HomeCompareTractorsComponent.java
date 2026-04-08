@@ -17,7 +17,7 @@ public class HomeCompareTractorsComponent {
 
 
     By compareSection =
-        By.xpath("//h2[contains(text(),'Compare Tractors')]");
+    		By.xpath("(//span[contains(@class,'price-link') and contains(text(),'Check Price')])[1]");
 
 
     public void clickFirstModelCheckPrice() {
