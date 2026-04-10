@@ -22,7 +22,7 @@ public class HomeTractorSectionComponent {
 
     // Tabs
     By tractorsIndiaSection =
-            By.xpath("//h2[contains(text(),'Tractors In India')]");
+            By.xpath("//h2[contains(translate(text(),'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'tractors in india')]");
 
     By popularTab =
             By.id("nav-indiaTractorSec-0-tab");
