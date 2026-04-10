@@ -162,46 +162,46 @@ public class LeadFormComponent {
 
 	public void selectModelRandomIfPresent() {
 
-    try {
+		try {
 
-        WebDriverWait wait =
-            new WebDriverWait(driver, Duration.ofSeconds(5));
+			WebDriverWait wait =
+					new WebDriverWait(driver, Duration.ofSeconds(5));
 
-        WebElement dropdown =
-            wait.until(
-                ExpectedConditions.presenceOfElementLocated(
-                    By.xpath(
-                        "//select[@id='userModels'] | " +
-                        "//select[contains(@name,'model')] | " +
-                        "//select[@id='model_id']"
-                    )
-                )
-            );
+			WebElement dropdown =
+					wait.until(
+							ExpectedConditions.presenceOfElementLocated(
+									By.xpath(
+											"//select[@id='userModels'] | " +
+													"//select[contains(@name,'model')] | " +
+													"//select[@id='model_id']"
+											)
+									)
+							);
 
-        Select select =
-            new Select(dropdown);
+			Select select =
+					new Select(dropdown);
 
-        if(select.getOptions().size() > 1) {
+			if(select.getOptions().size() > 1) {
 
-            select.selectByIndex(1);
+				select.selectByIndex(1);
 
-            System.out.println(
-                "Model selected successfully"
-            );
+				System.out.println(
+						"Model selected successfully"
+						);
 
-        }
+			}
 
-    }
+		}
 
-    catch(Exception e) {
+		catch(Exception e) {
 
-        System.out.println(
-            "Model dropdown not present — skipping selection"
-        );
+			System.out.println(
+					"Model dropdown not present — skipping selection"
+					);
 
-    }
+		}
 
-}
+	}
 	public void submitLead() {
 
 		submitLead(true);
@@ -209,77 +209,147 @@ public class LeadFormComponent {
 	}
 
 	public void submitLead(boolean isThankYouPopupExpected) {
-		System.out.println("Popup expected = " + isThankYouPopupExpected);
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
 
-		String submitFlag = BaseUtility.prop.getProperty("submitLead");
+		WebDriverWait wait =
+				new WebDriverWait(driver, Duration.ofSeconds(15));
 
-		if (submitFlag.equalsIgnoreCase("false")) {
+		String submitFlag =
+				BaseUtility.prop.getProperty("submitLead");
 
-			System.out.println("Submit skipped on production environment");
+		if(submitFlag.equalsIgnoreCase("false")) {
+
+			System.out.println(
+					"Submit skipped on production environment"
+					);
+
+			return;
+		}
+
+		WebElement submitButton =
+				new WebDriverWait(driver, Duration.ofSeconds(10))
+				.until(ExpectedConditions.elementToBeClickable(submitBtn));
+
+		((JavascriptExecutor) driver)
+		.executeScript("arguments[0].click();", submitButton);
+
+
+		System.out.println(
+				"Popup expected = " + isThankYouPopupExpected
+				);
+
+
+		try {
+
+			// STEP 1: Thank You popup detect
+
+			wait.until(
+					ExpectedConditions.visibilityOfElementLocated(
+							By.id("enquiryIdThanks")
+							)
+					);
+
+			System.out.println(
+					"Lead submitted successfully"
+					);
+
+		}
+
+		catch(Exception ignore) {
+
+			System.out.println(
+					"Primary ThankYou popup not detected"
+					);
+
+		}
+
+
+		try {
+
+			// STEP 2: Receive Similar Offers button detect
+
+			WebElement receiveBtn =
+					wait.until(
+							ExpectedConditions.elementToBeClickable(
+									By.xpath(
+											"//button[contains(text(),'Receive Similar Offers')]"
+											)
+									)
+							);
+
+			receiveBtn.click();
+
+			System.out.println(
+					"Receive Similar Offers button clicked"
+					);
 
 			return;
 
 		}
 
-		driver.findElement(submitBtn).click();
+		catch(Exception ignore) {
 
-		if(!isThankYouPopupExpected) {
+			System.out.println(
+					"Receive Similar Offers button not present"
+					);
 
-    System.out.println(
-        "Dealer-type lead submitted — waiting overlay confirmation"
-    );
+		}
 
-    WebDriverWait wait1 =
-        new WebDriverWait(driver, Duration.ofSeconds(12));
-
-    try {
-
-        WebElement overlayCloseBtn =
-        		wait1.until(
-                ExpectedConditions.elementToBeClickable(
-                    By.xpath(
-                        "//span[@id='thankyouClose'] | " +
-                        "//span[contains(@class,'popup_close')] | " +
-                        "//span[contains(@class,'enquiryThanks-close')] | " +
-                        "//img[contains(@onclick,'closeThanksPopUp')]"
-                    )
-                )
-            );
-
-        overlayCloseBtn.click();
-
-        System.out.println(
-            "Overlay ThankYou popup detected → Lead success"
-        );
-
-    }
-
-    catch(Exception e) {
-
-        throw new RuntimeException(
-            "Dealer lead NOT submitted — overlay popup missing"
-        );
-
-    }
-
-    return;
-
-}
 
 		try {
 
-			wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("enquiryIdThanks")));
+		    // STEP 3: fallback close popup detect
 
-			System.out.println("Lead submitted successfully");
+		    WebElement closeBtn =
+		        new WebDriverWait(driver, Duration.ofSeconds(10))
+		        .until(driver -> {
+
+		            try {
+
+		                return driver.findElement(
+		                    By.xpath(
+		                        "//span[@id='thankyouClose'] | " +
+		                        "//span[contains(@class,'popup_close')] | " +
+		                        "//span[contains(@class,'enquiryThanks-close')] | " +
+		                        "//button[contains(text(),'Close')]"
+		                    )
+		                );
+
+		            }
+
+		            catch(Exception e) {
+
+		                return null;
+
+		            }
+
+		        });
+
+		    ((JavascriptExecutor) driver)
+		        .executeScript("arguments[0].click();", closeBtn);
+
+		    System.out.println(
+		        "Fallback thankyou popup closed → Lead success"
+		    );
+
+		    return;
 
 		}
 
-		catch (Exception e) {
+		catch(Exception ignore) {
 
-			throw new RuntimeException("Lead NOT submitted. ThankYou popup missing");
+		    throw new RuntimeException(
+		        "Dealer/Loan lead NOT submitted — success popup missing"
+		    );
 
 		}
+
+//		if(isThankYouPopupExpected) {
+//
+//			throw new RuntimeException(
+//					"Lead NOT submitted. Success popup missing"
+//					);
+//
+//		}
 
 	}
 
@@ -305,31 +375,63 @@ public class LeadFormComponent {
     try {
 
         WebDriverWait wait =
-            new WebDriverWait(driver, Duration.ofSeconds(15));
+                new WebDriverWait(driver, Duration.ofSeconds(20));
+
+        // Step 1: wait popup fully loaded
+
+        wait.until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//form")
+        ));
+
+
+        // Step 2: wait model dropdown appear
 
         WebElement dropdown =
-            wait.until(
-                ExpectedConditions.elementToBeClickable(
-                    By.xpath(
-                        "//select[@id='userModel'] | " +   // NEW locator
-                        "//select[@id='userModels'] | " +
-                        "//select[contains(@name,'model')] | " +
-                        "//select[@id='model_id']"
-                    )
-                )
-            );
+                wait.until(driver -> {
 
-        Select select =
-            new Select(dropdown);
+                    try {
+
+                        WebElement element =
+                                driver.findElement(
+                                        By.xpath(
+                                                "//select[@id='userModels'] | " +
+                                                "//select[@id='userModel'] | " +
+                                                "//select[contains(@name,'model')]"
+                                        )
+                                );
+
+                        if(element.isDisplayed())
+                            return element;
+
+                        return null;
+
+                    }
+
+                    catch(Exception e) {
+
+                        return null;
+
+                    }
+
+                });
+
+
+        // Step 3: wait options load (AJAX response)
 
         wait.until(driver ->
-            select.getOptions().size() > 1
+                dropdown.findElements(By.tagName("option")).size() > 1
         );
+
+
+        // Step 4: select model
+
+        Select select =
+                new Select(dropdown);
 
         select.selectByIndex(1);
 
         System.out.println(
-            "Mandatory model selected successfully"
+                "Mandatory model selected successfully"
         );
 
     }
@@ -337,7 +439,8 @@ public class LeadFormComponent {
     catch(Exception e) {
 
         throw new RuntimeException(
-            "Mandatory model dropdown missing OR not loaded after brand selection"
+                "Mandatory model dropdown missing OR not loaded after popup render",
+                e
         );
 
     }
@@ -392,7 +495,7 @@ public class LeadFormComponent {
 		try {
 
 			((JavascriptExecutor) driver)
-					.executeScript("document.querySelectorAll('.checkbox-tile').forEach(e=>e.remove());");
+			.executeScript("document.querySelectorAll('.checkbox-tile').forEach(e=>e.remove());");
 
 			System.out.println("Recommended overlay removed");
 

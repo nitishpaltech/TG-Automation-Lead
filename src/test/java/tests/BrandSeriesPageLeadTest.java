@@ -7,10 +7,10 @@ import components.BrandPageComponent;
 import components.LeadFormComponent;
 import constants.BrandCTAType;
 
-public class BrandHPPageLeadTest extends BaseUtility {
+public class BrandSeriesPageLeadTest extends BaseUtility {
 
-    private static final String BRAND_HP_URL =
-            "/sonalika-tractors/under-50-hp";
+    private static final String BRAND_SERIES_URL =
+            "/mahindra-tractors/sp-plus";
 
 
     private void verifyBrandLead(
@@ -33,7 +33,7 @@ public class BrandHPPageLeadTest extends BaseUtility {
 
             case TALK_TO_DEALER:
 
-            	fillDealerLeadForm(leadForm);
+                fillDealerLeadForm(leadForm);
                 break;
 
             default:
@@ -57,7 +57,6 @@ public class BrandHPPageLeadTest extends BaseUtility {
         leadForm.selectStateRandom();
         leadForm.selectDistrictRandom();
         leadForm.selectTehsilRandom();
-        
 
         leadForm.submitLead(true);
 
@@ -76,28 +75,29 @@ public class BrandHPPageLeadTest extends BaseUtility {
         leadForm.selectStateRandom();
         leadForm.selectDistrictRandom();
         leadForm.selectTehsilRandom();
-        leadForm.selectModelRandomIfPresent();
+        leadForm.selectModelRandomMandatory();
         leadForm.submitLead(false);
 
     }
 
 
     @Test
-    public void verifyBrandHPPageCTPLead() {
+    public void verifyBrandSeriesPageCTPLead() {
 
         verifyBrandLead(
-                BRAND_HP_URL,
+                BRAND_SERIES_URL,
                 BrandCTAType.CHECK_TRACTOR_PRICE
         );
+       
 
     }
 
 
     @Test
-    public void verifyBrandHPPageEMILead() {
+    public void verifyBrandSeriesPageEMILead() {
 
         verifyBrandLead(
-                BRAND_HP_URL,
+                BRAND_SERIES_URL,
                 BrandCTAType.CHECK_EMI
         );
 
@@ -105,12 +105,23 @@ public class BrandHPPageLeadTest extends BaseUtility {
 
 
     @Test
-    public void verifyBrandHPPageDealerLead() {
+    public void verifyBrandSeriesPageDealerLead() {
 
         verifyBrandLead(
-        		BRAND_HP_URL,
+                BRAND_SERIES_URL,
                 BrandCTAType.TALK_TO_DEALER
         );
+        
+
+    }
+    
+//    @Test
+    public void verifyBrandPageSellerDetailsLead() {
+
+    	verifyBrandLead(
+    			BRAND_SERIES_URL,
+    			BrandCTAType.GET_SELLER_DETAILS
+    			);
 
     }
 

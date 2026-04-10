@@ -49,7 +49,7 @@ public class BrandCategoryPageLeadTest extends BaseUtility {
         leadForm.selectDistrictRandom();
 
         leadForm.selectTehsilRandom();
-
+        leadForm.selectModelRandomIfPresent();
         leadForm.submitLead(false);
 
     }

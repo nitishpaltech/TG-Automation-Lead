@@ -176,7 +176,7 @@ public class BrandPageLeadTest extends BaseUtility {
 
     }
     
-    @Test
+     @Test
     public void verifyBrandPageApplyLoanLead() {
 
     verifyBrandLead(
